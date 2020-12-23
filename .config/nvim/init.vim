@@ -29,6 +29,14 @@ set mouse=a
 set nohlsearch
 set clipboard+=unnamedplus
 
+" automatically reload .vimrc on save
+	if has('autocmd') " ignore this section if your vim does not support autocommands
+	    augroup reload_vimrc
+		autocmd!
+		autocmd! BufWritePost $MYVIMRC,$MYGVIMRC nested source %
+	    augroup END
+	endif
+
 " Some basics:
 	nnoremap c "_c
 	set nocompatible
@@ -137,6 +145,6 @@ set clipboard+=unnamedplus
 	autocmd BufWritePost *Xresources,*Xdefaults !xrdb %
 " Update binds when sxhkdrc is updated.
 	autocmd BufWritePost *sxhkdrc !pkill -USR1 sxhkd
-
+	
 " set colorscheme
         colorscheme gruvbox
