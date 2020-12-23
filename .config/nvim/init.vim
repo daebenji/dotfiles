@@ -18,9 +18,12 @@ Plug 'vimwiki/vimwiki'
 Plug 'bling/vim-airline'
 Plug 'tpope/vim-commentary'
 Plug 'kovetskiy/sxhkd-vim'
+Plug 'ap/vim-css-color'
+Plug 'vim-scripts/AutoComplPop'
+Plug 'morhetz/gruvbox'
 call plug#end()
 
-set bg=light
+set bg=dark
 set go=a
 set mouse=a
 set nohlsearch
@@ -33,8 +36,33 @@ set clipboard+=unnamedplus
 	syntax on
 	set encoding=utf-8
 	set number relativenumber
+
 " Enable autocompletion:
 	set wildmode=longest,list,full
+	
+" setup auto-complete
+        set complete+=kspell
+        set completeopt=menuone,longest
+        set shortmess+=c
+
+" Navigate the complete menu items like CTRL+n / CTRL+p would.
+        inoremap <expr> <Down> pumvisible() ? "<C-n>" :"<Down>"
+        inoremap <expr> <Up> pumvisible() ? "<C-p>" :"<Up>"
+
+" Select the complete menu item like CTRL+y would.
+        inoremap <expr> <Right> pumvisible() ? "<C-y>" :"<Right>"
+        inoremap <expr> <CR> pumvisible() ? "<C-y>" :"<CR>"
+
+" Select the complete menu item like CTRL+e would.
+        inoremap <expr> <Left> pumvisible() ? "<C-e>" :"<Left>"
+	set diffopt+=iwhite " Ignore whitespace whilst diffing
+	
+" remove whitespaces
+	nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+
+" show hidden characters
+	set list listchars=nbsp:¬,tab:»·,trail:·,extends:>
+	
 " Disables automatic commenting on newline:
 	autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
@@ -42,11 +70,11 @@ set clipboard+=unnamedplus
 	map <leader>f :Goyo \| set bg=light \| set linebreak<CR>
 
 " Spell-check set to <leader>o, 'o' for 'orthography':
-	map <leader>o :setlocal spell! spelllang=de_de<CR>
+	map <F8> :setlocal spell! spelllang=de_de<CR>
 
 " Splits open at the bottom and right, which is non-retarded, unlike vim defaults.
 	set splitbelow splitright
-
+	
 " Nerd tree
 	map <leader>n :NERDTreeToggle<CR>
 	autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -109,3 +137,6 @@ set clipboard+=unnamedplus
 	autocmd BufWritePost *Xresources,*Xdefaults !xrdb %
 " Update binds when sxhkdrc is updated.
 	autocmd BufWritePost *sxhkdrc !pkill -USR1 sxhkd
+
+" set colorscheme
+        colorscheme gruvbox
